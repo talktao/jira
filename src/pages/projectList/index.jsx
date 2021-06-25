@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
-import { cleanObject } from '../../utils'
+import { cleanObject, useDebounce, useMount } from '../../utils'
 import * as qs from 'qs'
 
 // 获取接口
@@ -14,6 +14,7 @@ export const ProjectListPage = () => {
 		name: '', // 姓名
 		personId: '' // id
 	})
+	const debounceParam = useDebounce(param, 2000)
 	// 定义负责人列表
 	const [users, setUsers] = useState([])
 	
@@ -21,22 +22,22 @@ export const ProjectListPage = () => {
 
 	// 当param改变时获取列表
 	useEffect(() => {
-		fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(param))}`).then(async res => {
+		fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
 			if (res.ok) {
 				// 当请求成功时，将数据保存下来
 				setList(await res.json())
 			}
 		})
-	}, [param])
+	}, [debounceParam])
 
-	useEffect(() => {
+	useMount(() => {
 		fetch(`${apiUrl}/users`).then(async res => {
 			if (res.ok) {
 				// 当请求成功时，将数据保存下来
 				setUsers(await res.json())
 			}
 		})
-	}, [])
+	})
 
 	return (
 		<div>

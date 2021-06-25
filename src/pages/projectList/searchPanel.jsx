@@ -1,4 +1,4 @@
-import React,{ useState } from "react"
+import React from "react"
 
 /* search表单组件 */
 export const SearchPanel = ({ param, users, setParam}) => {

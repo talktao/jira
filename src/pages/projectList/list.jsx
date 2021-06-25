@@ -1,7 +1,6 @@
 /* 列表表格组件 */
 import React from 'react'
 export const List = ({ list, users }) => {
-	console.log(list, users);
 	return (
 		<table>
 			<thead>
