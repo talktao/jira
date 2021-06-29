@@ -14,7 +14,7 @@ export const ProjectListPage = () => {
 		name: '', // 姓名
 		personId: '' // id
 	})
-	const debounceParam = useDebounce(param, 2000)
+	const debounceParam = useDebounce(param, 200)
 	// 定义负责人列表
 	const [users, setUsers] = useState([])
 	
