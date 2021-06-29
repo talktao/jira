@@ -5,6 +5,7 @@ import { User } from "pages/projectList/searchPanel"
 const apiUrl = process.env.REACT_APP_API_URL;
 const localStorageKey = '__auth_provider_token__'
 
+// 从localStorage里面读取登录或者注册时早已存的token
 export const getToken = () => window.localStorage.getItem(localStorageKey)
 
 export const handelUserResponse = ({ user }: { user: User }) => {

@@ -4,6 +4,7 @@ import { SearchPanel } from './searchPanel'
 import { List } from './list'
 import { cleanObject, useDebounce, useMount } from '../../utils'
 import * as qs from 'qs'
+import { useHttp } from 'utils/http'
 
 // 获取接口
 const apiUrl = process.env.REACT_APP_API_URL;
@@ -17,26 +18,28 @@ export const ProjectListPage = () => {
 	const debounceParam = useDebounce(param, 200)
 	// 定义负责人列表
 	const [users, setUsers] = useState([])
-	
 	const [list, setList] = useState([])
+	const client = useHttp()
 
 	// 当param改变时获取列表
 	useEffect(() => {
-		fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
-			if (res.ok) {
-				// 当请求成功时，将数据保存下来
-				setList(await res.json())
-			}
-		})
+		client('projects', {data: cleanObject(debounceParam)}).then(setList)
+		// fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
+		// 	if (res.ok) {
+		// 		// 当请求成功时，将数据保存下来
+		// 		setList(await res.json())
+		// 	}
+		// })
 	}, [debounceParam])
 
 	useMount(() => {
-		fetch(`${apiUrl}/users`).then(async res => {
-			if (res.ok) {
-				// 当请求成功时，将数据保存下来
-				setUsers(await res.json())
-			}
-		})
+		client('users').then(setUsers)
+		// fetch(`${apiUrl}/users`).then(async res => {
+		// 	if (res.ok) {
+		// 		// 当请求成功时，将数据保存下来
+		// 		setUsers(await res.json())
+		// 	}
+		// })
 	})
 
 	return (
