@@ -21,6 +21,7 @@ interface AuthFormProps {
 // 启动初始化user
 const bootstrapUser = async() => {
 	let user = null
+	// 从localStorage中找到token
 	const token = auth.getToken()
 	if (token) {
 		const data = await http('me', { token })

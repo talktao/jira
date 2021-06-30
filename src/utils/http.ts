@@ -1,6 +1,5 @@
 import qs from "qs";
 import * as auth from 'auth-provider'
-import { rejects } from "assert";
 import { useAuth } from "context/auth-context";
 
 // 获取接口
@@ -47,6 +46,21 @@ export const http = async (endpoint: string, { data, token, headers, ...customCo
 // 自动携带token的方法
 export const useHttp = () => {
 	const { user } = useAuth()
-	// TODO ts操作符
+	// Utility Type 的用法：用泛型给它传入一个其他类型，然后utility type对这个类型进行某种操作
 	return (...[endpoint, config]: Parameters<typeof http>) => http(endpoint, { ...config, token: user?.token })
 }
+
+/* type Person = {
+	name: string,
+	age: number
+}
+
+const xiaoMing: Partial<Person> = { name: 'xiaoMing' }
+console.log(xiaoMing);
+const shenMiRen: Omit<Person, 'name'|'age'> = {}
+console.log(shenMiRen);
+
+// Partial的实现
+type Partial<T> = {
+	[P in keyof T]?: T[P];
+}; */
