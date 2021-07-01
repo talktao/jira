@@ -3,12 +3,8 @@ import React, {useState, useEffect} from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
 import { cleanObject, useDebounce, useMount } from '../../utils'
-import * as qs from 'qs'
 import { useHttp } from 'utils/http'
 import styled from '@emotion/styled'
-
-// 获取接口
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListPage = () => {
 	// 负责人的参数
@@ -25,12 +21,13 @@ export const ProjectListPage = () => {
 	// 当param改变时获取列表
 	useEffect(() => {
 		client('projects', {data: cleanObject(debounceParam)}).then(setList)
-		// fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
-		// 	if (res.ok) {
-		// 		// 当请求成功时，将数据保存下来
-		// 		setList(await res.json())
-		// 	}
-		// })
+			/* fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
+				if (res.ok) {
+					// 当请求成功时，将数据保存下来
+					setList(await res.json())
+				}
+			}) */
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [debounceParam])
 
 	useMount(() => {

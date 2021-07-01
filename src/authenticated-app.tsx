@@ -5,7 +5,6 @@ import styled from "@emotion/styled"
 import { Row } from "components/lib"
 import { ReactComponent as SoftwareLogo} from 'assets/software-logo.svg'
 import { Button, Dropdown, Menu } from "antd"
-import userEvent from "@testing-library/user-event"
 
 /** 
  * grid 和 flex 各自的应用场景

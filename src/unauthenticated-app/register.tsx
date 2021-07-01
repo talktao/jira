@@ -1,10 +1,10 @@
 import { useAuth } from 'context/auth-context'
-import React, { FormEvent } from 'react'
-import { Button, Form, Input } from 'antd'
+import React from 'react'
+import { Form, Input } from 'antd'
 import { LongButton } from 'unauthenticated-app'
 export const RegisterPage = () => {
 
-	const { register, user } = useAuth()
+	const { register } = useAuth()
 	
 	// HTMLFormElement extends Element
 	const handleSumbit = (values: {username: string, password: string}) => {
