@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // 排除value为0的情况
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
 
@@ -71,7 +71,10 @@ export const useArray = <T>(initialArray: T[]) => {
 
 // 自定义项目浏览器顶部标签页的title
 export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
-	const oldTitle = document.title
+	// useRef持久化变量，返回的 ref 对象在组件的整个生命周期内保持不变
+	const oldTitle = useRef(document.title).current
+	// 页面加载时: 旧title
+	// 加载后: 新title
 	useEffect(() => {
 		document.title = title
 	}, [title])
@@ -79,9 +82,9 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
 	useEffect(() => {
 		return () => {
 			if (!keepOnUnmount) {
+				// 如果不指定依赖（即监听的数据），独到的就是旧title
 				document.title = oldTitle
 			}
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[])
+	},[keepOnUnmount, oldTitle])
 }
