@@ -1,10 +1,13 @@
 /* 项目列表主页面 */
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
-import { cleanObject, useDebounce, useMount } from '../../utils'
-import { useHttp } from 'utils/http'
+import { useDebounce } from '../../utils'
+// import { useHttp } from 'utils/http'
 import styled from '@emotion/styled'
+import { Typography } from 'antd'
+import { useProjects } from 'utils/project'
+import { useUsers } from 'utils/user'
 
 export const ProjectListPage = () => {
 	// 负责人的参数
@@ -13,38 +16,19 @@ export const ProjectListPage = () => {
 		personId: '' // id
 	})
 	const debounceParam = useDebounce(param, 200)
-	// 定义负责人列表
-	const [users, setUsers] = useState([])
-	const [list, setList] = useState([])
-	const client = useHttp()
 
-	// 当param改变时获取列表
-	useEffect(() => {
-		client('projects', {data: cleanObject(debounceParam)}).then(setList)
-			/* fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(debounceParam))}`).then(async res => {
-				if (res.ok) {
-					// 当请求成功时，将数据保存下来
-					setList(await res.json())
-				}
-			}) */
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debounceParam])
-
-	useMount(() => {
-		client('users').then(setUsers)
-		// fetch(`${apiUrl}/users`).then(async res => {
-		// 	if (res.ok) {
-		// 		// 当请求成功时，将数据保存下来
-		// 		setUsers(await res.json())
-		// 	}
-		// })
-	})
+	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
+	// 获取project工程列表，以及异步状态的loading
+	const { isLoading, error, data: list } = useProjects(debounceParam)
+	// 获取负责人信息
+	const { data: users } = useUsers()
 
 	return (
 		<Container>
 			<h1>项目列表</h1>
-			<SearchPanel users={users} param={param} setParam={setParam} />
-			<List users={users} list={list} />
+			<SearchPanel users={users || []} param={param} setParam={setParam} />
+				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+			<List loading={isLoading} users={users || []} dataSource={list || []} />
 		</Container>
 	)
 }

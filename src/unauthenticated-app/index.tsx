@@ -2,7 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { RegisterPage } from "./register"
 import { LoginPage } from "./login"
-import { Button, Card, Divider } from "antd"
+import { Button, Card, Divider, Typography } from "antd"
 import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
@@ -11,16 +11,17 @@ import right from 'assets/right.svg'
 
 export const UnauthenticatedApp = () => {
 	const [isRegister, setIsRegister] = useState(false)
+	// 当登录或者注册输入错误是保存并抛出这个错误
+	const [error, setError] = useState<Error | null>(null)
 	return (
 		<Container>
 			<Header />
 			<Background />
 			<ShadowCard>
-				<Title>
-					{isRegister ? '请注册' : '请登录'}
-				</Title>
+				<Title>{isRegister ? '请注册' : '请登录'}</Title>
+				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+				{isRegister ? <RegisterPage onError={setError}/> : <LoginPage onError={setError}/>}
 				<Divider />
-				{isRegister ? <RegisterPage /> : <LoginPage />}
 				<Button type="link" onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</Button>
 			</ShadowCard>
 		</Container>
