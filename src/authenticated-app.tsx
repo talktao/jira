@@ -25,8 +25,8 @@ export const AuthenticatedApp = () => {
 			<Header between={true}>
 				<HeaderLeft gap={true}>
 					<SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
-					<h3>项目</h3>
-					<h3>用户</h3>
+					<h2>项目</h2>
+					<h2>用户</h2>
 				</HeaderLeft>
 				<HeaderRight>
 					<Dropdown overlay={

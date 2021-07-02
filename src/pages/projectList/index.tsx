@@ -2,7 +2,7 @@
 import React, {useState} from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
-import { useDebounce } from '../../utils'
+import { useDebounce, useDocumentTitle } from '../../utils'
 // import { useHttp } from 'utils/http'
 import styled from '@emotion/styled'
 import { Typography } from 'antd'
@@ -22,6 +22,8 @@ export const ProjectListPage = () => {
 	const { isLoading, error, data: list } = useProjects(debounceParam)
 	// 获取负责人信息
 	const { data: users } = useUsers()
+	// 设置浏览器顶部标签页的title
+	useDocumentTitle('项目列表', false)
 
 	return (
 		<Container>

@@ -53,6 +53,7 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 	return debouncedValue
 }
 
+// 数组的增删清空
 export const useArray = <T>(initialArray: T[]) => {
 	const [value, setValue] = useState(initialArray)
 	return {
@@ -66,4 +67,21 @@ export const useArray = <T>(initialArray: T[]) => {
 			setValue(copy)
 		}
 	}
+}
+
+// 自定义项目浏览器顶部标签页的title
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+	const oldTitle = document.title
+	useEffect(() => {
+		document.title = title
+	}, [title])
+	
+	useEffect(() => {
+		return () => {
+			if (!keepOnUnmount) {
+				document.title = oldTitle
+			}
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	},[])
 }
