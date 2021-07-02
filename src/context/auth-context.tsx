@@ -1,8 +1,10 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode } from 'react'
 import * as auth from 'auth-provider'
 import { User } from 'pages/projectList/searchPanel'
 import { http } from 'utils/http'
 import { useMount } from 'utils'
+import { useAsync } from 'utils/use-async'
+import { FullPageError, FullPageLoading } from 'components/lib'
 
 const Authcontext = React.createContext<{
 	user: User | null,
@@ -31,7 +33,8 @@ const bootstrapUser = async() => {
 }
 
 export const AuthPrvider = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState<User | null>(null)
+	const { data: user, isError, error, isLoading, isIdle, run, setData: setUser} = useAsync<User | null>()
+	// const [user, setUser] = useState<User | null>(null)
 
 	// point free
 	const login = (form: AuthFormProps) => auth.login(form).then(setUser)
@@ -40,8 +43,18 @@ export const AuthPrvider = ({ children }: { children: ReactNode }) => {
 
 	// 页面加载时执行一次，调用bootstrapUser()
 	useMount(() => [
-		bootstrapUser().then(setUser)
+		run(bootstrapUser())
 	])
+
+	// 如果页面第一次加载或者正在加载中是显示loading组件
+	if (isIdle || isLoading) {
+		return <FullPageLoading />
+	}
+
+	// 页面发生错误时
+	if (isError) {
+		return <FullPageError error={error} />
+	}
 
 	return <Authcontext.Provider children={children} value={{user, login, register, logout}} />
 }
