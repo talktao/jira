@@ -29,8 +29,7 @@ export const RegisterPage = ({ onError }: { onError: (error: Error) => void }) =
 			</Form.Item>
 			<Form.Item>
 				<LongButton loading={isLoading} htmlType={'submit'} type={"primary"}>注册</LongButton>
-			</Form.Item>
-			
+			</Form.Item>			
 		</Form>
 	)
 }
