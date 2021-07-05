@@ -5,9 +5,10 @@ import styled from "@emotion/styled"
 import { Row } from "components/lib"
 import { ReactComponent as SoftwareLogo} from 'assets/software-logo.svg'
 import { Button, Dropdown, Menu } from "antd"
-import { Route, Routes } from 'react-router'
+import { Route, Routes, Navigate } from 'react-router'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { ProjectPage } from "pages/project"
+import { resetRoute } from "utils"
 
 /** 
  * grid 和 flex 各自的应用场景
@@ -29,7 +30,8 @@ export const AuthenticatedApp = () => {
 				<Router>
 					<Routes>
 						<Route path={'/projects'} element={<ProjectListPage />} />
-						<Route path={'/projects/:projectId/*'} element={<ProjectPage/>}/>
+						<Route path={'/projects/:projectId/*'} element={<ProjectPage />} />
+						<Navigate to={'/projects'}></Navigate>
 					</Routes>
 				</Router>
 			</Main>
@@ -42,7 +44,9 @@ const PageHeader = () => {
 	return (
 		<Header between={true}>
 			<HeaderLeft gap={true}>
-				<SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+				<Button type={'link'} onClick={resetRoute}>
+					<SoftwareLogo width={'18rem'} color={'rgb(38, 132, 255)'} />
+				</Button>
 				<h2>项目</h2>
 				<h2>用户</h2>
 			</HeaderLeft>
