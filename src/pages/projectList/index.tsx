@@ -8,22 +8,23 @@ import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUsers } from 'utils/user'
-import { useUrlQueryParam } from 'utils/url'
+// import { useUrlQueryParam } from 'utils/url'
+import { useProjectSearchParams } from './util'
 
 export const ProjectListPage = () => {
 
-	// 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里
-	const [param, setParam] = useUrlQueryParam(['name', 'personId'])
-	console.log(param, 'param');
-	
-	const debounceParam = useDebounce(param, 200)
-	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
-	// 获取project工程列表，以及异步状态的loading
-	const { isLoading, error, data: list } = useProjects(debounceParam)
-	// 获取负责人信息
-	const { data: users } = useUsers()
 	// 设置浏览器顶部标签页的title
 	useDocumentTitle('项目列表', false)
+
+	// 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里
+
+	const [param, setParam] = useProjectSearchParams()
+	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
+	// 获取project工程列表，以及异步状态的loading
+	const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
+	// 获取负责人信息
+	const { data: users } = useUsers()
+
 
 	return (
 		<Container>
@@ -35,7 +36,7 @@ export const ProjectListPage = () => {
 	)
 }
 
-ProjectListPage.whyDidYouRender = false
+ProjectListPage.whyDidYouRender = true
 
 const Container = styled.div`
 	padding: 3.2rem

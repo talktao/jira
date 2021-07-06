@@ -25,7 +25,7 @@ export const IdSelect = (props: IdSelectProps) => {
 	const { value, onChange, defaultOptionName, options, ...restProps } = props
 	return (
 		<Select
-			value={toNumber(value)}
+			value={options?.length ? toNumber(value) : 0}
 			onChange={value => onChange(toNumber(value) || undefined)} // 当value经过toNumber转换后不为零的话返回toNumber(value)，为零时返回undefined
 			{...restProps}
 		>
