@@ -1,5 +1,5 @@
 /* 项目列表主页面 */
-import React, {useState} from 'react'
+import React from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
 import { useDebounce, useDocumentTitle } from '../../utils'
@@ -8,15 +8,15 @@ import styled from '@emotion/styled'
 import { Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUsers } from 'utils/user'
+import { useUrlQueryParam } from 'utils/url'
 
 export const ProjectListPage = () => {
-	// 负责人的参数
-	const [param, setParam] = useState({
-		name: '', // 姓名
-		personId: '' // id
-	})
-	const debounceParam = useDebounce(param, 200)
 
+	// 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里
+	const [param, setParam] = useUrlQueryParam(['name', 'personId'])
+	console.log(param, 'param');
+	
+	const debounceParam = useDebounce(param, 200)
 	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
 	// 获取project工程列表，以及异步状态的loading
 	const { isLoading, error, data: list } = useProjects(debounceParam)
@@ -34,6 +34,8 @@ export const ProjectListPage = () => {
 		</Container>
 	)
 }
+
+ProjectListPage.whyDidYouRender = false
 
 const Container = styled.div`
 	padding: 3.2rem

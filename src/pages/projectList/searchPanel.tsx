@@ -22,7 +22,9 @@ interface SearchPanelProps {
 }
 
 /* search表单组件 */
-export const SearchPanel = ({ param, users, setParam}: SearchPanelProps) => {
+export const SearchPanel = ({ param, users, setParam }: SearchPanelProps) => {
+	console.log(users, 'users');
+	
 
 	return (
 		<Form css={{marginBottom: '2rem'}} layout={"inline"}>
@@ -39,7 +41,7 @@ export const SearchPanel = ({ param, users, setParam}: SearchPanelProps) => {
 					})}>
 						<Select.Option value=''>负责人</Select.Option>
 						{
-							users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
+							users.map(user => <Select.Option key={user.id} value={String(user.id)}>{user.name}</Select.Option>)
 						}
 					</Select>
 			</Form.Item>
