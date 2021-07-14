@@ -24,8 +24,6 @@ export const ProjectListPage = () => {
 	const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 200))
 	// 获取负责人信息
 	const { data: users } = useUsers()
-	console.log(retry,'retey');
-	
 
 	return (
 		<Container>

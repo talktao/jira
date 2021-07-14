@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useMountedRef } from 'utils'
 
 interface State<D> {
 	error: Error | null, // 异常状态
@@ -26,6 +27,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 		...initialState
 	})
 
+	const mountedRef = useMountedRef()
 	// useState直接传入的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
 	// https://codesandBox.io/s/blissful-water-230u4?file=/src/App.js
 	const [retry, setRetry] = useState(() => () => { })
@@ -62,7 +64,9 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 		setState({ ...state, stat: 'loading' })
 		// 数据成功返回调用 setData 将传入的数据保存起来
 		return promise.then(data => {
-			setData(data)
+			if (mountedRef.current) {
+				setData(data)
+			}
 			return data
 		}).catch(error => {
 			// catch会消化异常，如果不主动输出，外面是接收不到异常的
