@@ -26,6 +26,11 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 		...initialState
 	})
 
+	// useState直接传入的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
+	// https://codesandBox.io/s/blissful-water-230u4?file=/src/App.js
+	const [retry, setRetry] = useState(() => () => { })
+
+
 	// 调用data的函数，请求成功时才会调用
 	const setData = (data:D) => setState({
 		data,
@@ -40,11 +45,19 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 	})
 
 	// run 用来触发异步请求
-	const run = (promise: Promise<D>) => {
+	const run = (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
 		// 如果传入的不是一个promise则会打断一切进程
 		if (!promise || !promise.then) {
 			throw new Error('请传入 Promise 类型数据')
 		}
+
+		setRetry(() => () => {
+			if (runConfig?.retry) {
+				run(runConfig?.retry(), runConfig)
+			}
+
+		})
+		
 		// 如果传入的是一个正常的promise，则先将state下的stat状态设置为loading
 		setState({ ...state, stat: 'loading' })
 		// 数据成功返回调用 setData 将传入的数据保存起来
@@ -58,6 +71,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 			return error
 		})
 	}
+
 	return {
 		isIdle: state.stat === 'idle',
 		isLoading: state.stat === 'loading',
@@ -66,6 +80,8 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
 		run,
 		setData,
 		setError,
+		// retry 被调用时重新跑一边run，让state刷新一边
+		retry,
 		...state
 	}
 }

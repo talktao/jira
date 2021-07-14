@@ -21,17 +21,18 @@ export const ProjectListPage = () => {
 	const [param, setParam] = useProjectSearchParams()
 	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
 	// 获取project工程列表，以及异步状态的loading
-	const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
+	const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 200))
 	// 获取负责人信息
 	const { data: users } = useUsers()
-
+	console.log(retry,'retey');
+	
 
 	return (
 		<Container>
 			<h1>项目列表</h1>
 			<SearchPanel users={users || []} param={param} setParam={setParam} />
 				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-			<List loading={isLoading} users={users || []} dataSource={list || []} />
+			<List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
 		</Container>
 	)
 }
