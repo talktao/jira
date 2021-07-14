@@ -5,13 +5,14 @@ import { List } from './list'
 import { useDebounce, useDocumentTitle } from '../../utils'
 // import { useHttp } from 'utils/http'
 import styled from '@emotion/styled'
-import { Typography } from 'antd'
+import { Button, Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUsers } from 'utils/user'
 // import { useUrlQueryParam } from 'utils/url'
 import { useProjectSearchParams } from './util'
+import { Row } from 'components/lib'
 
-export const ProjectListPage = () => {
+export const ProjectListPage = (props: { setProjectModalOpen: (isOpen: boolean) => void }) => {
 
 	// 设置浏览器顶部标签页的title
 	useDocumentTitle('项目列表', false)
@@ -27,10 +28,14 @@ export const ProjectListPage = () => {
 
 	return (
 		<Container>
-			<h1>项目列表</h1>
+			<Row between={true}>
+				<h1>项目列表</h1>
+				<Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+			</Row>
+			
 			<SearchPanel users={users || []} param={param} setParam={setParam} />
 				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-			<List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
+			<List setProjectModalOpen={props.setProjectModalOpen} refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
 		</Container>
 	)
 }

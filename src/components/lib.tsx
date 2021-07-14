@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "@emotion/styled";
-import { Spin, Typography } from 'antd';
+import { Button, Spin, Typography } from 'antd';
 import { DevTools } from 'jira-dev-tool';
 // import { Typography } from "antd";
 
@@ -35,4 +35,8 @@ const FullPage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+`
+
+export const ButtonNoPadding = styled(Button)`
+	padding: 0;
 `
