@@ -9,13 +9,15 @@ import { Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUsers } from 'utils/user'
 // import { useUrlQueryParam } from 'utils/url'
-import { useProjectSearchParams } from './util'
-import { Row } from 'components/lib'
+import { useProjectModal, useProjectSearchParams } from './util'
+import { ButtonNoPadding, Row } from 'components/lib'
 
-export const ProjectListPage = (props: { projectButton: JSX.Element}) => {
+export const ProjectListPage = () => {
 
 	// 设置浏览器顶部标签页的title
 	useDocumentTitle('项目列表', false)
+
+	const { open } = useProjectModal()
 
 	// 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象绝不可以放到依赖里
 
@@ -30,12 +32,12 @@ export const ProjectListPage = (props: { projectButton: JSX.Element}) => {
 		<Container>
 			<Row between={true}>
 				<h1>项目列表</h1>
-				{props.projectButton}
+				<ButtonNoPadding onClick={open} type={'link'}>创建项目</ButtonNoPadding>
 			</Row>
 			
 			<SearchPanel users={users || []} param={param} setParam={setParam} />
 				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-			<List projectButton={props.projectButton} refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
+			<List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
 		</Container>
 	)
 }

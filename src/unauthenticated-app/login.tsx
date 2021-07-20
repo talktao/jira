@@ -9,8 +9,8 @@ export const LoginPage = ({ onError }: { onError: (error: Error) => void }) => {
 	const { run, isLoading } = useAsync(undefined, {throwOnError: true})
 	
 	// HTMLFormElement extends Element
-	const handleSumbit = (values: {username: string, password: string}) => {
-		run(login(values)).catch(onError)
+	const handleSumbit = (values: { username: string, password: string }) => {
+		run(login(values).catch(onError))
 	}
 	return (
 		<Form onFinish={handleSumbit}>

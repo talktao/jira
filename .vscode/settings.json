@@ -1,0 +1,4 @@
+{
+	"view-in-browser.customBrowser": "chrome",
+	"vetur.validation.templateProps": true
+}
