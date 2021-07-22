@@ -7,9 +7,9 @@ type SelectProps = React.ComponentProps<typeof Select>
 
 // Omit<typeProps（类型），'需要删除当前类型下的属性'>
 interface IdSelectProps extends Omit<SelectProps, 'value' | 'onChange' | 'options'> {
-	value: Raw | null | undefined,
+	value?: Raw | null | undefined,
 	// value值变化时的方法
-	onChange: (value?: number) => void,
+	onChange?: (value?: number) => void,
 	// 默认值，空值
 	defaultOptionName?: string,
 	options?: {name: string, id: number}[]
@@ -26,7 +26,7 @@ export const IdSelect = (props: IdSelectProps) => {
 	return (
 		<Select
 			value={options?.length ? toNumber(value) : 0}
-			onChange={value => onChange(toNumber(value) || undefined)} // 当value经过toNumber转换后不为零的话返回toNumber(value)，为零时返回undefined
+			onChange={value => onChange?.(toNumber(value) || undefined)} // 当value经过toNumber转换后不为零的话返回toNumber(value)，为零时返回undefined
 			{...restProps}
 		>
 			{

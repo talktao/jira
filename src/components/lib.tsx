@@ -27,8 +27,19 @@ export const FullPageLoading = () => <FullPage><Spin tip="Loading..." size={'lar
 // 页面发生错误时返回的错误信息
 export const FullPageError = ({ error }: { error: Error | null }) => <FullPage>
 	<DevTools />
-	<Typography.Text type={'danger'}>{error?.message}</Typography.Text>
+	<ErrorBox error={error} />
 </FullPage>
+
+// 类型守卫, 解决error类型为unknown的场景
+const isError = (value: any): value is Error => value?.message
+
+// 自定义Error组件，给定任意类型，只有是在真正报错误信息的情况下才显示error.message
+export const ErrorBox = ({ error }: { error: unknown }) => {
+	if (isError(error)) {
+		return <Typography.Text type={'danger'}>{error?.message}</Typography.Text>
+	}
+	return null
+}
 
 const FullPage = styled.div`
 	height: 100vh;

@@ -2,15 +2,13 @@
 import React from 'react'
 import { SearchPanel } from './searchPanel'
 import { List } from './list'
-import { useDebounce, useDocumentTitle } from '../../utils'
+import { useDebounce, useDocumentTitle } from 'utils'
 // import { useHttp } from 'utils/http'
 import styled from '@emotion/styled'
-import { Typography } from 'antd'
 import { useProjects } from 'utils/project'
 import { useUsers } from 'utils/user'
-// import { useUrlQueryParam } from 'utils/url'
 import { useProjectModal, useProjectSearchParams } from './util'
-import { ButtonNoPadding, Row } from 'components/lib'
+import { ButtonNoPadding, ErrorBox, Row } from 'components/lib'
 
 export const ProjectListPage = () => {
 
@@ -24,7 +22,7 @@ export const ProjectListPage = () => {
 	const [param, setParam] = useProjectSearchParams()
 	// useProjects自定义hook，将自定义的useHttp，useAsync以及react useEffect组合起来
 	// 获取project工程列表，以及异步状态的loading
-	const { isLoading, error, data: list, retry } = useProjects(useDebounce(param, 200))
+	const { isLoading, error, data: list } = useProjects(useDebounce(param, 200))
 	// 获取负责人信息
 	const { data: users } = useUsers()
 
@@ -36,13 +34,13 @@ export const ProjectListPage = () => {
 			</Row>
 			
 			<SearchPanel users={users || []} param={param} setParam={setParam} />
-				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
-			<List refresh={retry} loading={isLoading} users={users || []} dataSource={list || []} />
+			<ErrorBox error={error} />
+			<List loading={isLoading} users={users || []} dataSource={list || []} />
 		</Container>
 	)
 }
 
-ProjectListPage.whyDidYouRender = true
+ProjectListPage.whyDidYouRender = false
 
 const Container = styled.div`
 	padding: 3.2rem

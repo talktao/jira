@@ -2,12 +2,13 @@ import React from "react"
 import { useState } from "react"
 import { RegisterPage } from "./register"
 import { LoginPage } from "./login"
-import { Button, Card, Divider, Typography } from "antd"
+import { Button, Card, Divider } from "antd"
 import styled from '@emotion/styled'
 import logo from 'assets/logo.svg'
 import left from 'assets/left.svg'
 import right from 'assets/right.svg'
 import { useDocumentTitle } from "utils"
+import { ErrorBox } from "components/lib"
 
 
 export const UnauthenticatedApp = () => {
@@ -23,7 +24,7 @@ export const UnauthenticatedApp = () => {
 			<Background />
 			<ShadowCard>
 				<Title>{isRegister ? '请注册' : '请登录'}</Title>
-				{error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
+				<ErrorBox error={error} />
 				{isRegister ? <RegisterPage onError={setError}/> : <LoginPage onError={setError}/>}
 				<Divider />
 				<Button type="link" onClick={() => setIsRegister(!isRegister)}>{isRegister ? '已经有账号了？直接登录' : '没有账号？注册新账号'}</Button>
