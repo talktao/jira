@@ -1,7 +1,10 @@
 import { QueryKey, useQueryClient } from "react-query";
 
 /* 乐观更新 */
-export const useConfig = (queryKey: QueryKey, callback: (target: any, old?: any[]) => any[]) => {
+export const useConfig = (
+	queryKey: QueryKey,
+	callback: (target: any, old?: any[]) => any[]
+) => {
 	const queryClient = useQueryClient()
 	return {
 		onSuccess: ()=>queryClient.invalidateQueries(queryKey), // 成功请求后对缓存进行刷新
