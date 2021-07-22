@@ -12,6 +12,11 @@ export const useProjectSearchParams = () => {
 	] as const
 }
 
+export const useProjectsQueryKey = () => {
+	const [params] = useProjectSearchParams()
+	return ['projects', params]
+}
+
 export const useProjectModal = () => {
 	// projectCreate 判断现在是不是创建 
 	const [{projectCreate}, setProjectCreate] = useUrlQueryParam([

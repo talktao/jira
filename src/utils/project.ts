@@ -1,6 +1,7 @@
 import { Project } from "pages/projectList/list"
-import { useMutation, useQuery, useQueryClient } from "react-query"
+import { QueryKey, useMutation, useQuery } from "react-query"
 import { useHttp } from "./http"
+import { useAddConfig, useEditConfig } from "./use-optimistic-options"
 
 export const useProjects = (param?: Partial<Project>) => {
 	const client = useHttp()
@@ -9,29 +10,36 @@ export const useProjects = (param?: Partial<Project>) => {
 }
 
 // 编辑
-export const useEditProject = () => {
-	// const { run, ...asyncResult } = useAsync()
+export const useEditProject = (queryKey: QueryKey) => {
 	const client = useHttp()
-	const queryClient = useQueryClient()
 	return useMutation((params: Partial<Project>) => client(`projects/${params.id}`, {
 		method: 'PATCH',
 		data: params
-	}), {
-		onSuccess: ()=>queryClient.invalidateQueries('projects')  // 成功请求后对缓存进行刷新
-	})
+	}),
+		useEditConfig(queryKey)
+	)
 }
 
 // 添加
-export const useAddProject = () => {
-	// const { run, ...asyncResult } = useAsync()
+export const useAddProject = (queryKey: QueryKey) => {
 	const client = useHttp()
-	const queryClient = useQueryClient()
 	return useMutation((params: Partial<Project>) => client(`projects`, {
 		method: 'POST',
 		data: params
-	}), {
-		onSuccess: ()=>queryClient.invalidateQueries('projects')
-	})
+	}),
+		useAddConfig(queryKey)
+	)
+}
+
+// 删除
+export const useDeleteProject = (queryKey: QueryKey) => {
+	const client = useHttp()
+	
+	return useMutation(({id}:{id: number}) => client(`projects/${id}`, {
+		method: 'Delete',
+	}),
+		useEditConfig(queryKey)
+	)
 }
 
 // 获取项目详情，通过id
