@@ -1,7 +1,7 @@
 import { Project } from "pages/projectList/list"
 import { QueryKey, useMutation, useQuery } from "react-query"
 import { useHttp } from "./http"
-import { useAddConfig, useEditConfig } from "./use-optimistic-options"
+import { useAddConfig, useDeleteConfig, useEditConfig } from "./use-optimistic-options"
 
 export const useProjects = (param?: Partial<Project>) => {
 	const client = useHttp()
@@ -38,7 +38,7 @@ export const useDeleteProject = (queryKey: QueryKey) => {
 	return useMutation(({id}:{id: number}) => client(`projects/${id}`, {
 		method: 'Delete',
 	}),
-		useEditConfig(queryKey)
+		useDeleteConfig(queryKey)
 	)
 }
 
