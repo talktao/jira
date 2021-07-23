@@ -16,7 +16,7 @@ export const ProjectPage = () => {
 				<Route path={'/board'} element={<BoardPage />} />
 				{/* projects/:projectId/board */}
 				<Route path={'/epic'} element={<EpicPage />} />
-				<Navigate to={window.location.pathname + '/board'}></Navigate>
+				<Navigate to={window.location.pathname + '/board'} replace={true}/>
 			</Routes>
 		</div>
 	)
