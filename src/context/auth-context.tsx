@@ -5,6 +5,7 @@ import { http } from 'utils/http'
 import { useMount } from 'utils'
 import { useAsync } from 'utils/use-async'
 import { FullPageError, FullPageLoading } from 'components/lib'
+import { useQueryClient } from 'react-query'
 
 const Authcontext = React.createContext<{
 	user: User | null,
@@ -34,12 +35,15 @@ const bootstrapUser = async() => {
 
 export const AuthPrvider = ({ children }: { children: ReactNode }) => {
 	const { data: user, isError, error, isLoading, isIdle, run, setData: setUser} = useAsync<User | null>()
-	// const [user, setUser] = useState<User | null>(null)
+	const queryClient = useQueryClient()
 
 	// point free
 	const login = (form: AuthFormProps) => auth.login(form).then(setUser)
 	const register = (form: AuthFormProps) => auth.register(form).then(setUser)
-	const logout = () => auth.logout().then(() => setUser(null))
+	const logout = () => auth.logout().then(() => {
+			setUser(null)
+			queryClient.clear()
+	})
 
 	// 页面加载时执行一次，调用bootstrapUser()
 	useMount(() => [
