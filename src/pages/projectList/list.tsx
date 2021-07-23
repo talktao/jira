@@ -1,6 +1,6 @@
 /* 列表表格组件 */
 import React from 'react'
-import { User } from './searchPanel'
+import { User } from "../../types/User"
 import { Dropdown, Menu, Modal, Table, TableProps } from 'antd'
 import dayjs from 'dayjs'
 // react-router 与 react-router-dom 的关系， 类似于 react 和 react-dom/react-native/react-vr...

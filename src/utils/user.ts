@@ -1,4 +1,4 @@
-import { User } from "pages/projectList/searchPanel";
+import { User } from "types/User";
 import { useEffect } from "react";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
