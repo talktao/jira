@@ -2,7 +2,7 @@
 import React from "react"
 import {jsx} from '@emotion/react' // emotion行内样式
 import { Form, Input } from "antd"
-import { Project } from "./list";
+import { Project } from "types/Project";
 import { UserSelect } from "components/user-select";
 
 export interface User {

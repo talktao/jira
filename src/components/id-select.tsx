@@ -1,6 +1,6 @@
 import React from 'react'
 import { Select } from 'antd'
-import { Raw } from 'type'
+import { Raw } from 'types'
 
 // 定义一个SelectProps类型，用于存储Antd下Select组件上的各属性类型
 type SelectProps = React.ComponentProps<typeof Select>

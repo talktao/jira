@@ -31,7 +31,7 @@ export const useProjectModal = () => {
 	const {data: editingProject, isLoading } = useProject(Number(editingProjectId))
 
 	const open = () => setProjectCreate({ projectCreate: true })
-	const close = () => setUrlParams({projectCreate:'', editingProject:''})
+	const close = () => setUrlParams({projectCreate:'', editingProjectId:'' })
 	const startEdit = (id: number) => setEditingProjectId({editingProjectId:id}) //开始编辑
 
 	return {
