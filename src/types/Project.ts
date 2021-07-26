@@ -1,4 +1,4 @@
-// TODO 吧所有ID都改成number类型
+// 项目类型
 export interface Project {
 	id: number;
 	name: string;
