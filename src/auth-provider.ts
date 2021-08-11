@@ -26,6 +26,8 @@ export const login = (data: { username: string, password: string }) => {
 			if (res.ok) {
 				return handelUserResponse(await res.json())
 			} else {
+				console.log(res);
+				
 				return Promise.reject(await res.json())
 			}
 		}
