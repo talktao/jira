@@ -22,11 +22,11 @@ export const SearchPannel = () => {
 	return (
 		<Row marginBottom={4} gap={true}>
 			{/* 姓名搜索 */}
-			<Input style={{ width: '20rem' }} placeholder={'任务名'} value={searchParams.name} onChange={(e) => setSearchParams({ name: e.target.value })} />
+			<Input style={{ width: '20rem' }} placeholder={'任务名'} value={searchParams.name} onChange={e => setSearchParams({ name: e.target.value })} />
 			{/* 经办人搜索 */}
-			<UserSelect defaultOptionName={'经办人'} value={searchParams.processorId} onChange={(value) => setSearchParams({ processorId: value })} />
+			<UserSelect defaultOptionName={'经办人'} value={searchParams.processorId} onChange={value => setSearchParams({ processorId: value })} />
 			{/* 类型搜索 */}
-			<TaskTypeSelect defaultOptionName={'类型'} value={searchParams.typeId} onChange={(value) => setSearchParams({ typeId: value })} />
+			<TaskTypeSelect defaultOptionName={'类型'} value={searchParams.typeId} onChange={value => setSearchParams({ typeId: value })} />
 			<Button onClick={reset}>清除筛选器</Button>
 		</Row>
 	)

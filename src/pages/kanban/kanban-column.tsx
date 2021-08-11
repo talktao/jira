@@ -16,14 +16,17 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
 	return <img src={name === 'task' ? taskIcon : bugIcon} alt='' />
 }
 
-export const KanbanColumn = ({ Kanban }: { Kanban: Kanban }) => {
+export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+	
 	const { data: allTasks } = useTasks()
-	const tasks = allTasks?.filter(task => task.kanbanId === Kanban.id)
+	
+	const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
+	
 	
 	return (
 		<Container>
 			<TasksContainer>
-				<h3>{Kanban.name}</h3>
+				<h3>{kanban.name}</h3>
 				{
 					tasks?.map(task => (
 						<Card style={{ marginBottom: '0.5rem' }} key={task.id}>
@@ -39,7 +42,7 @@ export const KanbanColumn = ({ Kanban }: { Kanban: Kanban }) => {
 	)
 }
 
-const Container = styled.div`
+export const Container = styled.div`
 	min-width: 27rem;
 	border-radius: 6px;
 	background-color: rgb(244, 245, 247);
